@@ -1,0 +1,10 @@
+{
+  "extends": "eslint-config-egg",
+  "parser": "babel-eslint",
+  "rules": {
+    "no-extra-semi": 2,
+    "no-return-assign": 0,
+    "comma-dangle": ["error", "never"],
+    "semi": ["error", "never"]
+  }
+}
