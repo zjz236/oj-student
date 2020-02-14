@@ -37,7 +37,12 @@ module.exports = (options, app) => {
             userId: ObjectID(res.userId)
           }
         }) // 获取保存的token
-        if (!mongo_token) {
+        const user = await mongo.findOne('examinee', {
+          query: {
+            _id: ObjectID(res.userId)
+          }
+        })
+        if (!mongo_token || !user) {
           // eslint-disable-next-line no-return-assign
           return ctx.body = { code: -1, msg: '请登陆后再进行操作' }
         }

@@ -56,7 +56,8 @@ class OperationController extends Controller {
           status.push({
             resultId: insertedIds[insertedId],
             status: 'Queuing',
-            errMsg: ''
+            errMsg: '',
+            testId: testData[insertedId]._id
           })
         }
       }
@@ -140,7 +141,6 @@ class OperationController extends Controller {
             scorePro.forEach(item => {
               sum += item.score
             })
-            console.log(sum)
             await mongo.findOneAndUpdate('examinee', {
               filter: {
                 examId: ObjectID(examId),

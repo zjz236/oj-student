@@ -9,6 +9,7 @@ class TopicController extends Controller {
     try {
       const { examId } = ctx.request.query
       const mongo = app.mongo.get('oj')
+      const { userId } = ctx
       const result = await mongo.findOne('examList', {
         query: {
           _id: ObjectID(examId),
@@ -47,22 +48,26 @@ class TopicController extends Controller {
       })
       const tfAnswerCount = await mongo.countDocuments('examTFAnswer', {
         query: {
-          examId: ObjectID(examId)
+          examId: ObjectID(examId),
+          userId: ObjectID(userId)
         }
       })
       const selectAnswerCount = await mongo.countDocuments('examSelectAnswer', {
         query: {
-          examId: ObjectID(examId)
+          examId: ObjectID(examId),
+          userId: ObjectID(userId)
         }
       })
       const gapAnswerCount = await mongo.countDocuments('examGapAnswer', {
         query: {
-          examId: ObjectID(examId)
+          examId: ObjectID(examId),
+          userId: ObjectID(userId)
         }
       })
       const programAnswerCount = await mongo.countDocuments('examProgramAnswer', {
         query: {
-          examId: ObjectID(examId)
+          examId: ObjectID(examId),
+          userId: ObjectID(userId)
         }
       })
       const data = []
@@ -97,9 +102,10 @@ class TopicController extends Controller {
     try {
       const mongo = app.mongo.get('oj')
       const { topicType, examId } = ctx.request.query
+      const { userId } = ctx
       const topicTypePro = {
-        examTFTopic: { description: 1 },
-        examSelectTopic: { description: 1, options: 1 },
+        examTFTopic: { description: 1, grade: 1 },
+        examSelectTopic: { description: 1, options: 1, grade: 1 },
         examGapTopic: {},
         examProgramTopic: {}
       }
@@ -121,7 +127,8 @@ class TopicController extends Controller {
       }
       const answer = await mongo.find(topicTypeCollection[topicType], {
         query: {
-          examId: ObjectID(examId)
+          examId: ObjectID(examId),
+          userId: ObjectID(userId)
         },
         projection: {
           topicId: 1,
@@ -129,7 +136,8 @@ class TopicController extends Controller {
           answer: 1,
           code: 1,
           status: 1,
-          score: 1
+          score: 1,
+          result: 1
         }
       })
       if (topicType === 'examProgramTopic') {

@@ -17,11 +17,16 @@ class AccountController extends Controller {
       const privateKey = new NodeRSA(pri)
       privateKey.setOptions({ encryptionScheme: 'pkcs1' })
       password = privateKey.decrypt(password, 'utf8')
-      const result = await mongo.findOne('examinee', {
-        query: {
+      const { value: result } = await mongo.findOneAndUpdate('examinee', {
+        filter: {
           examId: ObjectID(examId),
           username,
           password
+        },
+        update: {
+          $set: {
+            isLogin: true
+          }
         }
       })
       if (!result) {
