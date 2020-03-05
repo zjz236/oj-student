@@ -70,7 +70,7 @@ class ExamController extends Controller {
             $sort: { finishTime: -1 }
           },
           {
-            $skip: parseInt(pageNo) - 1
+            $skip: (parseInt(pageNo) - 1) * parseInt(pageSize)
           },
           {
             $limit: parseInt(pageSize)
@@ -81,8 +81,43 @@ class ExamController extends Controller {
         code: 1,
         data: {
           list: result,
-          total: total.length ? total[0].total : 1
+          total: total.length ? total[0].total : 0
         },
+        msg: 'success'
+      }
+    } catch (e) {
+      console.error(e)
+      ctx.body = {
+        code: 0,
+        msg: '系统异常'
+      }
+    }
+  }
+
+  async getExamineeInfo() {
+    const { ctx, app } = this
+    try {
+      const { userId } = ctx
+      const mongo = await app.mongo.get('oj')
+      const result = await mongo.findOne('examinee', {
+        query: {
+          _id: ObjectID(userId)
+        },
+        options: {
+          projection: {
+            username: 1,
+            studentId: 1,
+            name: 1,
+            school: 1,
+            major: 1,
+            college: 1,
+            sex: 1
+          }
+        }
+      })
+      ctx.body = {
+        code: 1,
+        data: result,
         msg: 'success'
       }
     } catch (e) {

@@ -19,12 +19,17 @@ const verifyToken = token => {
   return res
 }
 const getToken = cookies => {
-  const tokenArray = cookies.split('=')
-  return tokenArray[1]
+  const cookieArray = cookies.split(';')
+  const cookieObject = {}
+  for (const item of cookieArray) {
+    const obj = item.trim().split('=')
+    cookieObject[obj[0]] = obj[1]
+  }
+  return cookieObject['stu-token']
 }
 module.exports = (options, app) => {
   return async function userInterceptor(ctx, next) {
-    const authToken = getToken(ctx.headers.cookies) // 获取header里的authorization
+    const authToken = getToken(ctx.headers.cookie) // 获取header里的authorization
     if (authToken) {
       const res = verifyToken(authToken) // 解密获取的Token
       const { examId } = ctx.request.method === 'GET' ? ctx.request.query : ctx.request.body

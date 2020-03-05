@@ -17,10 +17,6 @@ module.exports = appInfo => {
 
   // add your middleware config here
   config.middleware = [ 'jwt' ]
-  config.cors = {
-    origin: '*',
-    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
-  }
   config.mongo = {
     clients: {
       oj: {
@@ -33,7 +29,7 @@ module.exports = appInfo => {
     }
   }
   config.jwt = {
-    ignore: [ '/student/exam/getExamList', '/student/exam/getExamInfo', '/student/account/getPublicKey', '/student/account/login' ]
+    ignore: [ '/student/exam/getExamList', '/student/exam/getExamInfo', '/student/account/getPublicKey', '/student/account/login', '/student/ide/addIDEData', '/student/ide/getIDEData' ]
   }
   // csrf配置
   config.security = {

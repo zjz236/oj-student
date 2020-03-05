@@ -8,6 +8,7 @@ module.exports = app => {
   router.get('/', controller.home.index)
   router.get('/student/exam/getExamList', controller.exam.getExamList)
   router.get('/student/exam/getExamInfo', controller.exam.getExamInfo)
+  router.get('/student/exam/getExamineeInfo', controller.exam.getExamineeInfo)
   router.get('/student/account/getPublicKey', controller.account.getPublicKey)
   router.post('/student/account/login', controller.account.login)
   router.post('/student/account/userPasswordModify', controller.account.userPasswordModify)
