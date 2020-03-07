@@ -19,6 +19,9 @@ const verifyToken = token => {
   return res
 }
 const getToken = cookies => {
+  if (!cookies || typeof cookies !== 'string') {
+    return ''
+  }
   const cookieArray = cookies.split(';')
   const cookieObject = {}
   for (const item of cookieArray) {
