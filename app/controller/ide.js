@@ -13,7 +13,7 @@ class IDEController extends Controller {
       let inputFile = ''
       if (inputData) {
         try {
-          const { data } = await axios.post('http://127.0.0.1:7001/oj/upload/uploadTestData', {
+          const { data } = await axios.post('http://127.0.0.1:7001/upload/uploadTestData', {
             inputData
           })
           if (data.code === 0) {
