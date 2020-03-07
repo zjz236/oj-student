@@ -32,8 +32,8 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-oj-student",
-    "stop": "egg-scripts stop --title=egg-server-oj-student",
+    "start": "egg-scripts start --daemon --title=egg-server-oj-student --port 1236",
+    "stop": "egg-scripts stop --title=egg-server-oj-student --port 1236",
     "dev": "egg-bin dev --port 1236",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",
