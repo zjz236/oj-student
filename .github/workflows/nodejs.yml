@@ -46,8 +46,8 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.TOKEN }}
           script: |
+            source ~/.bashrc
             cd /var/www/source/oj-student/
-            ls
             npm install
             npm run stop
             npm run start
