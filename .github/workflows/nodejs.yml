@@ -42,6 +42,7 @@ jobs:
           key: ${{ secrets.TOKEN }}
           script: |
             cd /var/www/source/oj-student/
+            ls
             npm install
             npm run stop
             npm run start
