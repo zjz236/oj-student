@@ -35,11 +35,11 @@ jobs:
       # 其实可以在github提供的虚拟机里面完成代码的打包
       # 但是node_modules太大了，我的服务及带宽太小，传输速度太慢了
       - name: start server
-        uses: appleboy/ssh-action@v0.0.7
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
-          key: ${{ secrets.TOKEN }}
+          password: ${{ secrets.PASSWORD }}
           script: |
             cd /var/www/source/oj-student/
             ls
