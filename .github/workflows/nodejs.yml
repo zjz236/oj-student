@@ -39,10 +39,10 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
-          password: ${{ secrets.PASSWORD }}
+          key: ${{ secrets.TOKEN }}
           script: |
             cd /var/www/source/oj-student/
-            ls
+            ls -a
             nvm --version
             npm install
             npm stop
