@@ -1,0 +1,45 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-16.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # step2: 将源码复制到服务器 #坑
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@v2.1.2
+        env:
+          # 这个地方的用法会在下面解释，简单的说就是一个变量
+          # 为了安全，被写在一个其他的地方
+          SSH_PRIVATE_KEY: ${{ secrets.TOKEN }}
+          REMOTE_HOST: ${{ secrets.HOST }}
+          REMOTE_USER: ${{ secrets.USER }}
+          SOURCE: 'dist/'
+          TARGET: '/var/www/source/oj-student/'
+          ARGS: '-avzr --delete'
+
+
+      # step3: 通过ssh连接服务器，执行安装和启动服务
+      # 其实可以在github提供的虚拟机里面完成代码的打包
+      # 但是node_modules太大了，我的服务及带宽太小，传输速度太慢了
+      - name: start server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.TOKEN }}
+          script: |
+            cd /var/www/source/oj-student/
+            npm install
+            npm run stop
+            npm run start

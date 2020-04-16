@@ -9,6 +9,7 @@ module.exports = app => {
   router.get('/exam/getExamList', controller.exam.getExamList)
   router.get('/exam/getExamInfo', controller.exam.getExamInfo)
   router.get('/exam/getExamineeInfo', controller.exam.getExamineeInfo)
+  router.get('/exam/getExamNotice', controller.exam.getExamNotice)
   router.get('/account/getPublicKey', controller.account.getPublicKey)
   router.post('/account/login', controller.account.login)
   router.post('/account/userPasswordModify', controller.account.userPasswordModify)

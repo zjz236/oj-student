@@ -10,6 +10,23 @@ class OperationController extends Controller {
       const { topicType, answer, examId } = ctx.request.body
       const { userId } = ctx
       const mongo = app.mongo.get('oj')
+      const result = await mongo.findOne('examList', {
+        query: {
+          _id: ObjectID(examId)
+        }
+      })
+      if (new Date() > new Date(result.finishTime)) {
+        return ctx.body = {
+          code: 0,
+          msg: '考试已结束'
+        }
+      }
+      if (new Date() < new Date(result.startTime)) {
+        return ctx.body = {
+          code: 0,
+          msg: '考试为考试'
+        }
+      }
       const deleteFilter = {
         examTFAnswer: { examId: ObjectID(examId), userId: ObjectID(userId) },
         examSelectAnswer: { examId: ObjectID(examId), userId: ObjectID(userId) },

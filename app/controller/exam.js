@@ -94,6 +94,33 @@ class ExamController extends Controller {
     }
   }
 
+  async getExamNotice() {
+    const { ctx, app } = this
+    try {
+      const mongo = app.mongo.get('oj')
+      const { examId } = ctx.request.query
+      const result = await mongo.find('notice', {
+        query: {
+          examId: ObjectID(examId)
+        },
+        sort: {
+          _id: 1
+        }
+      })
+      ctx.body = {
+        code: 1,
+        msg: 'success',
+        data: result
+      }
+    } catch (e) {
+      console.error(e)
+      ctx.body = {
+        code: 0,
+        msg: '系统异常'
+      }
+    }
+  }
+
   async getExamineeInfo() {
     const { ctx, app } = this
     try {

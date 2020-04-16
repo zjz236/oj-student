@@ -1,8 +1,6 @@
 'use strict'
 
 const Controller = require('egg').Controller
-const fs = require('fs')
-const path = require('path')
 const NodeRSA = require('node-rsa')
 const ObjectID = require('mongodb').ObjectID
 
@@ -11,10 +9,19 @@ class AccountController extends Controller {
     const { ctx, app } = this
     try {
       const mongo = app.mongo.get('oj')
-      let { examId, username, password } = ctx.request.body
-      const pri = fs.readFileSync(path.join(__dirname, '../key/loginKey/pri.key'))
-        .toString()
-      const privateKey = new NodeRSA(pri)
+      let { examId, username, password, publicKey } = ctx.request.body
+      const certValue = await mongo.findOne('cert', {
+        query: {
+          publicKey
+        }
+      })
+      if (!certValue) {
+        return ctx.body = {
+          code: 0,
+          msg: '系统异常，请重试'
+        }
+      }
+      const privateKey = new NodeRSA(certValue.privateKey)
       privateKey.setOptions({ encryptionScheme: 'pkcs1' })
       password = privateKey.decrypt(password, 'utf8')
       const { value: result } = await mongo.findOneAndUpdate('examinee', {
@@ -55,6 +62,11 @@ class AccountController extends Controller {
           }
         })
       }
+      await mongo.findOneAndDelete('cert', {
+        filter: {
+          publicKey
+        }
+      })
       ctx.body = {
         code: 1,
         msg: 'success',
@@ -70,14 +82,30 @@ class AccountController extends Controller {
   }
 
   async getPublicKey() {
-    const { ctx } = this
+    const { ctx, app } = this
     try {
-      const data = fs.readFileSync(path.join(__dirname, '../key/loginKey/pub.key'))
-        .toString()
-      ctx.body = {
-        code: 1,
-        msg: 'success',
-        data
+      const key = new NodeRSA({ b: 1024 })
+      key.setOptions({ encryptionScheme: 'pkcs1' })
+      const mongo = app.mongo.get('oj')
+      const publicKey = key.exportKey('pkcs8-public')
+      const privateKey = key.exportKey('pkcs8-private')
+      const { insertedId } = await mongo.insertOne('cert', {
+        doc: {
+          publicKey,
+          privateKey
+        }
+      })
+      if (insertedId) {
+        ctx.body = {
+          code: 1,
+          msg: 'success',
+          data: publicKey
+        }
+      } else {
+        ctx.body = {
+          code: 0,
+          msg: '系统异常'
+        }
       }
     } catch (e) {
       console.error(e)
@@ -91,12 +119,21 @@ class AccountController extends Controller {
   async userPasswordModify() {
     const { ctx, app } = this
     try {
-      let { oldPassword, newPassword, confirmPassword, examId } = ctx.request.body
+      let { oldPassword, newPassword, confirmPassword, examId, publicKey } = ctx.request.body
       const { userId } = ctx
       const mongo = app.mongo.get('oj')
-      const pri = fs.readFileSync(path.join(__dirname, '../key/loginKey/pri.key'))
-        .toString()
-      const privateKey = new NodeRSA(pri)
+      const { value: certValue } = await mongo.findOneAndDelete('cert', {
+        filter: {
+          publicKey
+        }
+      })
+      if (!certValue) {
+        return ctx.body = {
+          code: 0,
+          msg: '系统异常，请重试'
+        }
+      }
+      const privateKey = new NodeRSA(certValue.privateKey)
       privateKey.setOptions({ encryptionScheme: 'pkcs1' })
       oldPassword = privateKey.decrypt(oldPassword, 'utf8')
       newPassword = privateKey.decrypt(newPassword, 'utf8')
