@@ -21,7 +21,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-        env: npm
 
       # step2: 将源码复制到服务器 #坑
       - name: Deploy to Server
@@ -46,7 +45,6 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.TOKEN }}
-          envs: npm
           script: |
             cd /var/www/source/oj-student/
             ls
