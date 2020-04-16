@@ -47,6 +47,7 @@ jobs:
           key: ${{ secrets.TOKEN }}
           script: |
             source ~/.bashrc
+            nvm --version
             cd /var/www/source/oj-student/
             npm install
             npm run stop
