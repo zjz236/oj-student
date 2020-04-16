@@ -43,6 +43,7 @@ jobs:
           script: |
             cd /var/www/source/oj-student/
             ls
+            nvm --version
             npm install
             npm stop
             npm start
