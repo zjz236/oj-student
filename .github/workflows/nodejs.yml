@@ -17,11 +17,6 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-
       # step2: 将源码复制到服务器 #坑
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v2.1.2
@@ -40,7 +35,7 @@ jobs:
       # 其实可以在github提供的虚拟机里面完成代码的打包
       # 但是node_modules太大了，我的服务及带宽太小，传输速度太慢了
       - name: start server
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.0.7
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
@@ -49,5 +44,5 @@ jobs:
             cd /var/www/source/oj-student/
             ls
             npm install
-            npm run stop
-            npm run start
+            npm stop
+            npm start
