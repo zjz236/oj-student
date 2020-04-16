@@ -48,7 +48,7 @@ jobs:
           script: |
             echo $PATH
             cd /var/www/source/oj-student/
-            /root/.nvm/versions/node/v12.16.1/bin/npm install
+            ~/.nvm/versions/node/v12.16.1/bin/npm install
             npm install
             npm run stop
             npm run start
