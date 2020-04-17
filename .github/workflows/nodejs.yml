@@ -48,3 +48,4 @@ jobs:
           script: |
             cd /var/www/source/oj-student/
             cat ~/.bashrc
+            source ~/.bashrc;echo $PARH
