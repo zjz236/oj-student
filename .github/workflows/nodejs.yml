@@ -17,11 +17,6 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-
       # step2: 将源码复制到服务器 #坑
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v2.1.2
@@ -47,5 +42,4 @@ jobs:
           key: ${{ secrets.TOKEN }}
           script: |
             cd /var/www/source/oj-student/
-            cat ~/.bashrc
             source ~/.bashrc;echo $PARH
