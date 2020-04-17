@@ -41,5 +41,6 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.TOKEN }}
           script: |
+            export BASH_ENV=/etc/profile
             cd /var/www/source/oj-student/
-            echo $SHELL
+            echo $PATH
