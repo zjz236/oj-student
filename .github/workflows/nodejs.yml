@@ -47,4 +47,4 @@ jobs:
           key: ${{ secrets.TOKEN }}
           script: |
             cd /var/www/source/oj-student/
-            bash install.sh
+            cat ~/.bashrc
