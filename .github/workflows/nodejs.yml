@@ -42,5 +42,7 @@ jobs:
           key: ${{ secrets.TOKEN }}
           script: |
             export BASH_ENV=~/.bashrc
+            ls -a ~/.nvm/
+            ls -a ~/.nvm/versions/
             cd /var/www/source/oj-student/
             echo $PATH
