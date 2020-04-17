@@ -42,6 +42,6 @@ jobs:
           key: ${{ secrets.TOKEN }}
           script: |
             export BASH_ENV=~/.bashrc
-            ~/.nvm/versions/node/v12.16.1/npm
+            ~/.nvm/versions/node/v12.16.1/bin/npm --version
             cd /var/www/source/oj-student/
             echo $PATH
