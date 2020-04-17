@@ -42,6 +42,6 @@ jobs:
           key: ${{ secrets.TOKEN }}
           script: |
             cd /var/www/source/oj-student/
-            ~/.nvm/versions/node/v12.16.1/bin/npm install
+            ~/.nvm/versions/node/v12.16.1/bin/cnpm install
             ~/.nvm/versions/node/v12.16.1/bin/npm stop
             ~/.nvm/versions/node/v12.16.1/bin/npm start
