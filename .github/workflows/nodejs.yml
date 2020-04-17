@@ -41,8 +41,7 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.TOKEN }}
           script: |
-            export BASH_ENV=~/.bashrc
-            ~/.nvm/versions/node/v12.16.1/bin/npm --version
-
             cd /var/www/source/oj-student/
-            echo $PATH
+            ~/.nvm/versions/node/v12.16.1/bin/npm install
+            ~/.nvm/versions/node/v12.16.1/bin/npm stop
+            ~/.nvm/versions/node/v12.16.1/bin/npm start
