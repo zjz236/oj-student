@@ -42,4 +42,4 @@ jobs:
           key: ${{ secrets.TOKEN }}
           script: |
             cd /var/www/source/oj-student/
-            source ~/.bashrc;echo $PATH
+            echo $SHELL
