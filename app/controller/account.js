@@ -10,8 +10,8 @@ class AccountController extends Controller {
     try {
       const mongo = app.mongo.get('oj')
       let { examId, username, password, publicKey } = ctx.request.body
-      const certValue = await mongo.findOne('cert', {
-        query: {
+      const { value: certValue } = await mongo.findOneAndDelete('cert', {
+        filter: {
           publicKey
         }
       })
@@ -62,11 +62,6 @@ class AccountController extends Controller {
           }
         })
       }
-      await mongo.findOneAndDelete('cert', {
-        filter: {
-          publicKey
-        }
-      })
       ctx.body = {
         code: 1,
         msg: 'success',
