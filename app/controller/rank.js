@@ -44,6 +44,11 @@ class RankController extends Controller {
               }
             },
             {
+              $match: {
+                examId: ObjectID(examId)
+              }
+            },
+            {
               $sort: {
                 score: -1,
                 studentId: 1
