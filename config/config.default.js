@@ -29,7 +29,7 @@ module.exports = appInfo => {
     }
   }
   config.jwt = {
-    ignore: [ '/exam/getExamInfo', '/account/getPublicKey', '/account/login', '/ide/addIDEData', '/ide/getIDEData' ]
+    ignore: [ '/exam/getExamList', '/exam/getExamInfo', '/account/getPublicKey', '/account/login', '/ide/addIDEData', '/ide/getIDEData' ]
   }
   // csrf配置
   config.security = {
